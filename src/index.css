@@ -1,0 +1,189 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Space Grotesk", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.glass-panel {
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: linear-gradient(135deg, rgba(241, 245, 249, 0.86), rgba(226, 232, 240, 0.6));
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(16px);
+}
+
+.dark .glass-panel {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.45));
+  box-shadow: 0 20px 40px rgba(2, 6, 23, 0.5);
+}
+
+.html-result-container {
+  width: 100%;
+  min-height: 220px;
+  overflow: auto;
+  border-radius: 0.75rem;
+  border: none;
+  background: transparent;
+  color: #0f172a;
+}
+
+.dark .html-result-container {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+.html-result-container.theme-dark :where(article, main, section, div, p, span, li, h1, h2, h3, h4, h5, h6) {
+  color: #e2e8f0 !important;
+}
+
+.html-result-container.theme-dark :where(article, main, section, div) {
+  border-color: rgba(148, 163, 184, 0.35) !important;
+}
+
+.html-result-container.theme-dark a {
+  color: #7dd3fc !important;
+}
+
+.html-result-container.theme-light :where(article, main, section, div, p, span, li, h1, h2, h3, h4, h5, h6) {
+  color: #0f172a !important;
+}
+
+.html-result-container.theme-light a {
+  color: #0284c7 !important;
+}
+
+.typing-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 1rem;
+}
+
+.typing-dot {
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.35;
+  animation: typingWave 1s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+.menu-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
+}
+
+.menu-scrollbar::-webkit-scrollbar {
+  width: 2px;
+}
+
+.menu-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.menu-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.35);
+  border-radius: 9999px;
+}
+
+@keyframes typingWave {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.45s ease both;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.5s ease both;
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  animation: shimmer 6s infinite;
+}
+
+.animate-discussion-switch {
+  animation: discussionSwitch 0.28s ease both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(350%);
+  }
+}
+
+@keyframes discussionSwitch {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

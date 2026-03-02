@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo Light">
+  <g transform="translate(32 32)">
+    <circle cx="0" cy="0" r="32" fill="none" stroke="#0f172a" stroke-width="2.5"/>
+    <path d="M-16 -10C-16 -14.418 -12.418 -18 -8 -18H8C12.418 -18 16 -14.418 16 -10V10C16 14.418 12.418 18 8 18H-4L-10 24V18H-8C-12.418 18 -16 14.418 -16 10V-10Z" fill="#0f172a" stroke="#0f172a" stroke-width="1.8"/>
+    <circle cx="-6" cy="-2" r="2.4" fill="white"/>
+    <circle cx="6" cy="-2" r="2.4" fill="white"/>
+    <path d="M-7 7C-4 10 4 10 7 7" stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <line x1="0" y1="-26" x2="0" y2="-18" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="0" cy="-29" r="2.6" fill="#0f172a"/>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="64" cy="64" r="58" stroke="white" stroke-width="4"/>
+
+  <g transform="translate(64 64)">
+    <path d="M-28 -20C-28 -25.523 -23.523 -30 -18 -30H18C23.523 -30 28 -25.523 28 -20V10C28 15.523 23.523 20 18 20H-6L-20 34V20H-18C-23.523 20 -28 15.523 -28 10V-20Z" fill="white" stroke="white" stroke-width="3"/>
+    <circle cx="-10" cy="-5" r="5" fill="white"/>
+    <circle cx="10" cy="-5" r="5" fill="white"/>
+    <path d="M-10 8C-6 12 6 12 10 8" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <line x1="0" y1="-40" x2="0" y2="-30" stroke="white" stroke-width="3"/>
+    <circle cx="0" cy="-44" r="4" fill="white"/>
+  </g>
+</svg>
