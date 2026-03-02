@@ -28,6 +28,26 @@ type PendingRequestState = {
 
 type ResponseMode = "simple" | "chart";
 
+const EXPERT_BI_SUGGESTIONS: Array<{ label: string; question: string }> = [
+  {
+    label: "Performance Globale",
+    question:
+      "Fais-moi un résumé du chiffre d'affaires total et de la marge sur les 6 derniers mois."
+  },
+  {
+    label: "Top Agents",
+    question: "Qui sont les 3 meilleurs agents et quel est leur taux de commission actuel ?"
+  },
+  {
+    label: "Focus Clientèle",
+    question: "Quels sont les clients les plus importants à Ivandry et quel est leur panier moyen ?"
+  },
+  {
+    label: "Alerte Stock",
+    question: "Quels produits de luxe arrivent à expiration prochainement et quelle est la valeur en stock ?"
+  }
+];
+
 const DARK_TO_LIGHT_INLINE_STYLES: Array<[RegExp, string]> = [
   [/#1a1a1a/gi, "#ffffff"],
   [/#2d2d2d/gi, "#f8fafc"],
@@ -190,7 +210,7 @@ export default function App() {
     INITIAL_CHAT_STATE.selectedDiscussionId
   );
   const [input, setInput] = useState<string>("");
-  const [responseMode, setResponseMode] = useState<ResponseMode>("simple");
+  const [responseMode, setResponseMode] = useState<ResponseMode>("chart");
   const [pendingByDiscussion, setPendingByDiscussion] = useState<Record<string, PendingRequestState>>(
     {}
   );
@@ -200,8 +220,13 @@ export default function App() {
   const requestAbortRef = useRef<Map<string, AbortController>>(new Map());
   const exportSectionRef = useRef<HTMLDivElement | null>(null);
   const messagesSectionRef = useRef<HTMLElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const isDarkTheme = theme === "dark";
   const appGradient = `linear-gradient(135deg, ${appConfig.branding.gradientFrom}, ${appConfig.branding.gradientVia}, ${appConfig.branding.gradientTo})`;
+  const applySuggestion = (text: string) => {
+    setInput(text);
+    inputRef.current?.focus();
+  };
 
   const currentDiscussion = useMemo(
     () => discussions.find((d) => d.id === selectedDiscussionId) ?? discussions[0],
@@ -704,8 +729,44 @@ export default function App() {
                 </article>
               ))
             ) : (
-              <div className="animate-shimmer rounded-2xl border border-slate-300/70 bg-slate-100/90 p-6 text-sm text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
-                Commencez une discussion en envoyant un message.
+              <div
+                className={`rounded-2xl border px-6 py-5 text-sm backdrop-blur ${
+                  isDarkTheme
+                    ? "border-white/10 bg-slate-900/80 text-slate-200"
+                    : "border-slate-300/70 bg-slate-100/90 text-slate-600"
+                }`}
+                style={{ overflow: "visible" }}
+              >
+                <div className="space-y-4 pr-2">
+                  <p className="text-sm font-semibold uppercase tracking-wide text-cyan-500">
+                    {`# 👔 Bonjour !`} Je suis votre Expert BI
+                  </p>
+                  <p className="text-sm text-slate-600 dark:text-slate-300">
+                    Je suis prêt à analyser vos données. Voici un aperçu de ce que je peux faire pour vous aujourd'hui.
+                  </p>
+                  <div className="space-y-3">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                      ## 🌟 Suggestions de Questions pour Commencer
+                    </p>
+                    <div className="grid gap-2 pr-1">
+                      {EXPERT_BI_SUGGESTIONS.map((suggestion) => (
+                        <button
+                          key={suggestion.label}
+                          type="button"
+                          onClick={() => applySuggestion(suggestion.question)}
+                          className="w-full space-y-1 rounded-lg border border-slate-200 bg-white/80 px-3 py-2 text-left text-[13px] transition hover:border-cyan-400 hover:bg-cyan-50 focus-visible:border-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:border-cyan-300 dark:hover:bg-white/5"
+                        >
+                          <p className="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">
+                            {suggestion.label}
+                          </p>
+                          <p className="text-sm text-slate-800 dark:text-slate-100 whitespace-normal break-words">
+                            {suggestion.question}
+                          </p>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -734,6 +795,7 @@ export default function App() {
               <form onSubmit={handleSend} className="shrink-0">
                 <div className="flex items-center gap-2">
                   <input
+                    ref={inputRef}
                     type="text"
                     placeholder="Poser une question..."
                     value={input}
