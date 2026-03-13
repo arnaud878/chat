@@ -9,6 +9,7 @@
   color-scheme: dark;
 }
 
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -107,11 +108,13 @@ body {
 }
 
 @keyframes typingWave {
+
   0%,
   100% {
     transform: translateY(0);
     opacity: 0.35;
   }
+
   50% {
     transform: translateY(-3px);
     opacity: 1;
@@ -151,6 +154,7 @@ body {
     opacity: 0;
     transform: translateY(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -162,6 +166,7 @@ body {
     opacity: 0;
     transform: translateX(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -172,6 +177,7 @@ body {
   from {
     transform: translateX(0%);
   }
+
   to {
     transform: translateX(350%);
   }
@@ -182,6 +188,7 @@ body {
     opacity: 0;
     transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
