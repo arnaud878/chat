@@ -28,23 +28,46 @@ type PendingRequestState = {
 
 type ResponseMode = "simple" | "chart";
 
-const EXPERT_BI_SUGGESTIONS: Array<{ label: string; question: string }> = [
+type SuggestionCategory = {
+  title: string;
+  icon: string;
+  items: Array<{ question: string }>;
+};
+
+const EXPERT_BI_SUGGESTIONS: SuggestionCategory[] = [
   {
-    label: "Performance Globale",
-    question:
-      "Fais-moi un résumé du chiffre d'affaires total et de la marge sur les 6 derniers mois."
+    title: "Performance Globale",
+    icon: "📈",
+    items: [
+      { question: "Fais-moi un résumé du **Chiffre d'Affaires total** (`ca`) et de la **Quantité totale** (`Qté`) sur les 6 derniers mois." },
+      { question: "Quelles sont les ventes totales pour les produits de type **'SEC'** par rapport aux produits **'FRAIS'** ?" },
+      { question: "Donne-moi le top 5 des familles de produits (`Familles`) les plus rentables." }
+    ]
   },
   {
-    label: "Top Agents",
-    question: "Qui sont les 3 meilleurs agents et quel est leur taux de commission actuel ?"
+    title: "Top Agents & Commerciaux",
+    icon: "🏆",
+    items: [
+      { question: "Qui sont les 3 meilleurs **Commerciaux** en termes de CA ce trimestre ?" },
+      { question: "Affiche la performance par **Responsable UC** (`RUC`) pour la marque **'YAMA'**." },
+      { question: "Quel est le volume de ventes géré par chaque **ADV** pour les produits **'FERRERO'** ?" }
+    ]
   },
   {
-    label: "Focus Clientèle",
-    question: "Quels sont les clients les plus importants à Ivandry et quel est leur panier moyen ?"
+    title: "Focus Clientèle",
+    icon: "🤝",
+    items: [
+      { question: "Quels sont les clients les plus importants liés à **'Antalaha'** ?" },
+      { question: "Calcule le **panier moyen** (CA / nombre de Pièces) par secteur d'activité." }
+    ]
   },
   {
-    label: "Alerte Stock",
-    question: "Quels produits de luxe arrivent à expiration prochainement et quelle est la valeur en stock ?"
+    title: "Analyse Produits & Flux",
+    icon: "📦",
+    items: [
+      { question: "Fais un comparatif des ventes entre les différentes **Marques** du marché **'CONFISERIE'**." },
+      { question: "Quels formats de produits (`Format`) génèrent la plus grande marge (`bop`) ?" }
+    ]
   }
 ];
 
@@ -536,20 +559,17 @@ export default function App() {
         ) : null}
 
         <div
-          className={`grid min-h-0 flex-1 grid-cols-1 gap-4 ${
-            isMenuCollapsed ? "md:grid-cols-[54px_1fr]" : "md:grid-cols-[180px_1fr]"
-          }`}
+          className={`grid min-h-0 flex-1 grid-cols-1 gap-4 ${isMenuCollapsed ? "md:grid-cols-[54px_1fr]" : "md:grid-cols-[180px_1fr]"
+            }`}
         >
           <aside
-            className={`glass-panel animate-slideIn fixed inset-y-0 left-0 z-40 mt-0 w-[80vw] max-w-[280px] transform flex min-h-0 flex-col overflow-hidden rounded-none transition-transform duration-200 md:relative md:z-auto md:mt-0 md:w-auto md:max-w-none md:translate-x-0 md:rounded-2xl ${
-              isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-            } ${isMenuCollapsed ? "p-1" : "p-1.5"}`}
+            className={`glass-panel animate-slideIn fixed inset-y-0 left-0 z-40 mt-0 w-[80vw] max-w-[280px] transform flex min-h-0 flex-col overflow-hidden rounded-none transition-transform duration-200 md:relative md:z-auto md:mt-0 md:w-auto md:max-w-none md:translate-x-0 md:rounded-2xl ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+              } ${isMenuCollapsed ? "p-1" : "p-1.5"}`}
           >
             <div className="shrink-0 space-y-3">
               <div
-                className={`flex items-center ${
-                  isMenuCollapsed ? "justify-center" : "justify-between"
-                }`}
+                className={`flex items-center ${isMenuCollapsed ? "justify-center" : "justify-between"
+                  }`}
               >
                 {!isMenuCollapsed ? (
                   <h2 className="text-xs font-semibold md:text-sm">{appConfig.appName}</h2>
@@ -558,9 +578,8 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setIsMenuCollapsed((prev) => !prev)}
-                    className={`hidden rounded-lg border border-slate-300/70 bg-slate-100/90 font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/15 dark:bg-slate-900/60 dark:text-slate-100 md:inline-block ${
-                      isMenuCollapsed ? "px-1 py-0.5 text-[9px]" : "px-2 py-1 text-[10px]"
-                    }`}
+                    className={`hidden rounded-lg border border-slate-300/70 bg-slate-100/90 font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/15 dark:bg-slate-900/60 dark:text-slate-100 md:inline-block ${isMenuCollapsed ? "px-1 py-0.5 text-[9px]" : "px-2 py-1 text-[10px]"
+                      }`}
                     aria-label={isMenuCollapsed ? "Agrandir menu" : "Reduire menu"}
                   >
                     {isMenuCollapsed ? ">>" : "Reduire"}
@@ -570,9 +589,8 @@ export default function App() {
               <button
                 type="button"
                 onClick={handleCreateDiscussion}
-                className={`w-full rounded-xl font-semibold text-white shadow-lg transition hover:scale-[1.01] ${
-                  isMenuCollapsed ? "px-0 py-1 text-[10px]" : "px-2 py-1.5 text-[10px]"
-                }`}
+                className={`w-full rounded-xl font-semibold text-white shadow-lg transition hover:scale-[1.01] ${isMenuCollapsed ? "px-0 py-1 text-[10px]" : "px-2 py-1.5 text-[10px]"
+                  }`}
                 style={{ backgroundImage: appGradient }}
               >
                 {isMenuCollapsed ? "+" : "+ Nouvelle discussion"}
@@ -580,52 +598,49 @@ export default function App() {
             </div>
 
             <div className="menu-scrollbar mt-3 flex min-h-0 flex-col gap-1 overflow-auto">
-            {discussions.map((discussion) => (
-              <div
-                key={discussion.id}
-                className={`rounded-xl backdrop-blur p-0 transition-colors ${
-                  discussion.id === currentDiscussion?.id
-                    ? "bg-slate-300/70 dark:bg-cyan-900/25"
-                    : "bg-transparent hover:bg-slate-300/70 dark:hover:bg-white/10"
-                }`}
-              >
+              {discussions.map((discussion) => (
                 <div
-                  className={`grid items-center gap-2 ${
-                    isMenuCollapsed ? "grid-cols-1 justify-items-center" : "grid-cols-[1fr_auto]"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    className={`leading-none ${
-                      isMenuCollapsed
-                        ? "h-7 w-7 rounded-full bg-slate-100/95 text-center text-[10px] dark:bg-slate-900/70"
-                        : "min-w-0 w-full rounded-lg px-1 py-1 text-left text-[10px]"
+                  key={discussion.id}
+                  className={`rounded-xl backdrop-blur p-0 transition-colors ${discussion.id === currentDiscussion?.id
+                      ? "bg-slate-300/70 dark:bg-cyan-900/25"
+                      : "bg-transparent hover:bg-slate-300/70 dark:hover:bg-white/10"
                     }`}
-                    onClick={() => handleSelectDiscussion(discussion.id)}
-                    title={discussion.title}
-                    aria-label={isMenuCollapsed ? discussion.title : `Ouvrir ${discussion.title}`}
+                >
+                  <div
+                    className={`grid items-center gap-2 ${isMenuCollapsed ? "grid-cols-1 justify-items-center" : "grid-cols-[1fr_auto]"
+                      }`}
                   >
-                    <span className={`block truncate font-semibold ${isMenuCollapsed ? "text-[9px]" : "text-[10px]"}`}>
-                      {isMenuCollapsed
-                        ? discussion.title.slice(0, 1).toUpperCase()
-                        : truncateText(discussion.title, 18)}
-                    </span>
-                  </button>
-                  {!isMenuCollapsed ? (
                     <button
                       type="button"
-                      className="rounded-md p-2 text-rose-600 transition hover:bg-rose-100/70 dark:hover:bg-rose-500/10"
-                      onClick={() => handleDeleteDiscussion(discussion.id)}
-                      aria-label={`Supprimer ${discussion.title}`}
+                      className={`leading-none ${isMenuCollapsed
+                          ? "h-7 w-7 rounded-full bg-slate-100/95 text-center text-[10px] dark:bg-slate-900/70"
+                          : "min-w-0 w-full rounded-lg px-1 py-1 text-left text-[10px]"
+                        }`}
+                      onClick={() => handleSelectDiscussion(discussion.id)}
+                      title={discussion.title}
+                      aria-label={isMenuCollapsed ? discussion.title : `Ouvrir ${discussion.title}`}
                     >
-                      <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                        <path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v9H7V9z" />
-                      </svg>
+                      <span className={`block truncate font-semibold ${isMenuCollapsed ? "text-[9px]" : "text-[10px]"}`}>
+                        {isMenuCollapsed
+                          ? discussion.title.slice(0, 1).toUpperCase()
+                          : truncateText(discussion.title, 18)}
+                      </span>
                     </button>
-                  ) : null}
+                    {!isMenuCollapsed ? (
+                      <button
+                        type="button"
+                        className="rounded-md p-2 text-rose-600 transition hover:bg-rose-100/70 dark:hover:bg-rose-500/10"
+                        onClick={() => handleDeleteDiscussion(discussion.id)}
+                        aria-label={`Supprimer ${discussion.title}`}
+                      >
+                        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
+                          <path d="M9 3h6l1 2h4v2H4V5h4l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM7 9h2v9H7V9z" />
+                        </svg>
+                      </button>
+                    ) : null}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
             </div>
           </aside>
 
@@ -665,131 +680,141 @@ export default function App() {
                 ref={messagesSectionRef}
                 className="my-4 flex min-h-0 flex-1 flex-col gap-3 overflow-auto"
               >
-            {currentDiscussion?.messages.length ? (
-              currentDiscussion.messages.map((message) => (
-                <article
-                  key={message.id}
-                  className={`relative rounded-2xl px-4 py-3 shadow-sm ${
-                    message.role === "user"
-                      ? isDarkTheme
-                        ? "ml-auto max-w-[90%] bg-gradient-to-r from-cyan-600 via-blue-600 to-violet-600 text-white md:max-w-[82%]"
-                        : "ml-auto max-w-[90%] bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white md:max-w-[82%]"
-                      : isDarkTheme
-                        ? "w-full max-w-full bg-slate-900/80 text-slate-100 backdrop-blur"
-                        : "w-full max-w-full bg-transparent text-slate-800 backdrop-blur"
-                  }`}
-                  style={{ paddingRight: "2.5rem" }}
-                >
-                  <div className="absolute right-2 top-2 z-10 flex items-center gap-1">
-                    {message.role === "user" ? (
-                      <button
-                        type="button"
-                        onClick={() => handleCopyMessage(message)}
-                        className="rounded-md bg-white/15 p-1 text-white transition hover:bg-white/25"
-                        aria-label="Copier le message"
-                        title={copiedMessageId === message.id ? "Copie" : "Copier"}
-                      >
-                        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                          <path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16h-9V7h9v14z" />
-                        </svg>
-                      </button>
-                    ) : null}
-                    {message.role === "assistant" ? (
-                      <button
-                        type="button"
-                        onClick={(event) => handleExportSingleResponse(event, message)}
-                        disabled={exportingMessageId === message.id}
-                        className="rounded-md bg-slate-300/80 p-1 text-slate-700 transition hover:bg-slate-300 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-slate-800/70 dark:text-slate-200 dark:hover:bg-slate-700"
-                        aria-label="Exporter cette reponse en PDF"
-                        title={exportingMessageId === message.id ? "Export..." : "Exporter PDF"}
-                      >
-                        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 4.5 17.5 8H14zM8 13h8v1.5H8zm0 3h8v1.5H8zm0-6h5v1.5H8z" />
-                        </svg>
-                      </button>
-                    ) : null}
-                  </div>
-                  {message.role === "assistant" && isLikelyHtml(message.content) ? (
-                    <HtmlContent html={message.content} theme={theme} />
-                  ) : (
-                    <p className="whitespace-pre-wrap text-sm">{message.content}</p>
-                  )}
-                  {copiedMessageId === message.id ? (
-                    <p className="mt-2 text-[11px] opacity-90">Copie</p>
-                  ) : null}
-                  {message.role === "assistant" && typeof message.responseTimeMs === "number" ? (
-                    <p
-                      className={`mt-2 text-[11px] ${
-                        isDarkTheme ? "text-slate-400" : "text-slate-500"
-                      }`}
+                {currentDiscussion?.messages.length ? (
+                  currentDiscussion.messages.map((message) => (
+                    <article
+                      key={message.id}
+                      className={`relative rounded-2xl px-4 py-3 shadow-sm ${message.role === "user"
+                          ? isDarkTheme
+                            ? "ml-auto max-w-[90%] bg-gradient-to-r from-cyan-600 via-blue-600 to-violet-600 text-white md:max-w-[82%]"
+                            : "ml-auto max-w-[90%] bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white md:max-w-[82%]"
+                          : isDarkTheme
+                            ? "w-full max-w-full bg-slate-900/80 text-slate-100 backdrop-blur"
+                            : "w-full max-w-full bg-transparent text-slate-800 backdrop-blur"
+                        }`}
+                      style={{ paddingRight: "2.5rem" }}
                     >
-                      Temps de reponse: {formatDuration(message.responseTimeMs)}
-                    </p>
-                  ) : null}
-                </article>
-              ))
-            ) : (
-              <div
-                className={`rounded-2xl border px-6 py-5 text-sm backdrop-blur ${
-                  isDarkTheme
-                    ? "border-white/10 bg-slate-900/80 text-slate-200"
-                    : "border-slate-300/70 bg-slate-100/90 text-slate-600"
-                }`}
-                style={{ overflow: "visible" }}
-              >
-                <div className="space-y-4 pr-2">
-                  <p className="text-sm font-semibold uppercase tracking-wide text-cyan-500">
-                    {`# 👔 Bonjour !`} Je suis votre Expert BI
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-300">
-                    Je suis prêt à analyser vos données. Voici un aperçu de ce que je peux faire pour vous aujourd'hui.
-                  </p>
-                  <div className="space-y-3">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                      ## 🌟 Suggestions de Questions pour Commencer
-                    </p>
-                    <div className="grid gap-2 pr-1">
-                      {EXPERT_BI_SUGGESTIONS.map((suggestion) => (
-                        <button
-                          key={suggestion.label}
-                          type="button"
-                          onClick={() => applySuggestion(suggestion.question)}
-                          className="w-full space-y-1 rounded-lg border border-slate-200 bg-white/80 px-3 py-2 text-left text-[13px] transition hover:border-cyan-400 hover:bg-cyan-50 focus-visible:border-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:border-cyan-300 dark:hover:bg-white/5"
+                      <div className="absolute right-2 top-2 z-10 flex items-center gap-1">
+                        {message.role === "user" ? (
+                          <button
+                            type="button"
+                            onClick={() => handleCopyMessage(message)}
+                            className="rounded-md bg-white/15 p-1 text-white transition hover:bg-white/25"
+                            aria-label="Copier le message"
+                            title={copiedMessageId === message.id ? "Copie" : "Copier"}
+                          >
+                            <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
+                              <path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16h-9V7h9v14z" />
+                            </svg>
+                          </button>
+                        ) : null}
+                        {message.role === "assistant" ? (
+                          <button
+                            type="button"
+                            onClick={(event) => handleExportSingleResponse(event, message)}
+                            disabled={exportingMessageId === message.id}
+                            className="rounded-md bg-slate-300/80 p-1 text-slate-700 transition hover:bg-slate-300 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-slate-800/70 dark:text-slate-200 dark:hover:bg-slate-700"
+                            aria-label="Exporter cette reponse en PDF"
+                            title={exportingMessageId === message.id ? "Export..." : "Exporter PDF"}
+                          >
+                            <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
+                              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 4.5 17.5 8H14zM8 13h8v1.5H8zm0 3h8v1.5H8zm0-6h5v1.5H8z" />
+                            </svg>
+                          </button>
+                        ) : null}
+                      </div>
+                      {message.role === "assistant" && isLikelyHtml(message.content) ? (
+                        <HtmlContent html={message.content} theme={theme} />
+                      ) : (
+                        <p className="whitespace-pre-wrap text-sm">{message.content}</p>
+                      )}
+                      {copiedMessageId === message.id ? (
+                        <p className="mt-2 text-[11px] opacity-90">Copie</p>
+                      ) : null}
+                      {message.role === "assistant" && typeof message.responseTimeMs === "number" ? (
+                        <p
+                          className={`mt-2 text-[11px] ${isDarkTheme ? "text-slate-400" : "text-slate-500"
+                            }`}
                         >
-                          <p className="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400">
-                            {suggestion.label}
-                          </p>
-                          <p className="text-sm text-slate-800 dark:text-slate-100 whitespace-normal break-words">
-                            {suggestion.question}
-                          </p>
-                        </button>
-                      ))}
+                          Temps de reponse: {formatDuration(message.responseTimeMs)}
+                        </p>
+                      ) : null}
+                    </article>
+                  ))
+                ) : (
+                  <div
+                    className={`rounded-2xl border px-6 py-5 text-sm backdrop-blur ${isDarkTheme
+                        ? "border-white/10 bg-slate-900/80 text-slate-200"
+                        : "border-slate-300/70 bg-slate-100/90 text-slate-600"
+                      }`}
+                    style={{ overflow: "visible" }}
+                  >
+                    <div className="space-y-4 pr-2">
+                      <p className="text-sm font-semibold uppercase tracking-wide text-cyan-500">
+                        {`# 👔 Bonjour !`} Je suis votre Expert BI
+                      </p>
+                      <p className="text-sm text-slate-600 dark:text-slate-300">
+                        Je suis prêt à analyser vos données. Voici un aperçu de ce que je peux faire pour vous aujourd'hui.
+                      </p>
+                      <div className="space-y-3">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                          ## 🌟 Suggestions de Questions pour Commencer
+                        </p>
+                        <div className="space-y-6 pr-1">
+                          {EXPERT_BI_SUGGESTIONS.map((category) => (
+                            <div key={category.title} className="space-y-3">
+                              <h3 className="text-sm font-bold flex items-center gap-2 text-slate-700 dark:text-slate-200">
+                                <span>{category.icon}</span>
+                                {category.title}
+                              </h3>
+                              <div className="grid gap-2">
+                                {category.items.map((item, idx) => (
+                                  <button
+                                    key={idx}
+                                    type="button"
+                                    onClick={() => applySuggestion(item.question)}
+                                    className="w-full rounded-lg border border-slate-200 bg-white/80 px-3 py-2.5 text-left text-sm transition hover:border-cyan-400 hover:bg-cyan-50 focus-visible:border-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-500 dark:border-white/10 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:border-cyan-300 dark:hover:bg-white/5"
+                                  >
+                                    <p className="text-sm text-slate-800 dark:text-slate-100 whitespace-normal break-words">
+                                      {item.question.split(/(\*\*.*?\*\*|`.*?`)/).map((part, i) => {
+                                        if (part.startsWith("**") && part.endsWith("**")) {
+                                          return <strong key={i}>{part.slice(2, -2)}</strong>;
+                                        }
+                                        if (part.startsWith("`") && part.endsWith("`")) {
+                                          return <code key={i} className="bg-slate-100 dark:bg-slate-800 px-1 rounded text-cyan-600 dark:text-cyan-400">{part.slice(1, -1)}</code>;
+                                        }
+                                        return part;
+                                      })}
+                                    </p>
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
+                )}
 
-            {currentDiscussionPending ? (
-              <article
-                className={`max-w-[82%] rounded-2xl px-4 py-3 shadow-sm backdrop-blur ${
-                  isDarkTheme ? "bg-slate-900/80 text-slate-100" : "bg-transparent text-slate-800"
-                }`}
-              >
-                <div className="typing-loader" aria-label="Chargement">
-                  <span className="typing-dot" />
-                  <span className="typing-dot" />
-                  <span className="typing-dot" />
-                </div>
-                <p
-                  className={`mt-2 text-[11px] ${
-                    isDarkTheme ? "text-slate-400" : "text-slate-500"
-                  }`}
-                >
-                  Temps en cours: {formatDuration(currentDiscussionPending.elapsedMs)}
-                </p>
-              </article>
-            ) : null}
+                {currentDiscussionPending ? (
+                  <article
+                    className={`max-w-[82%] rounded-2xl px-4 py-3 shadow-sm backdrop-blur ${isDarkTheme ? "bg-slate-900/80 text-slate-100" : "bg-transparent text-slate-800"
+                      }`}
+                  >
+                    <div className="typing-loader" aria-label="Chargement">
+                      <span className="typing-dot" />
+                      <span className="typing-dot" />
+                      <span className="typing-dot" />
+                    </div>
+                    <p
+                      className={`mt-2 text-[11px] ${isDarkTheme ? "text-slate-400" : "text-slate-500"
+                        }`}
+                    >
+                      Temps en cours: {formatDuration(currentDiscussionPending.elapsedMs)}
+                    </p>
+                  </article>
+                ) : null}
               </section>
 
               <form onSubmit={handleSend} className="shrink-0">
@@ -826,22 +851,20 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setResponseMode("simple")}
-                    className={`rounded-md px-2.5 py-1 text-[11px] font-semibold transition ${
-                      responseMode === "simple"
+                    className={`rounded-md px-2.5 py-1 text-[11px] font-semibold transition ${responseMode === "simple"
                         ? "bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900"
                         : "text-slate-600 hover:bg-slate-200/70 dark:text-slate-300 dark:hover:bg-slate-800"
-                    }`}
+                      }`}
                   >
                     Rapide
                   </button>
                   <button
                     type="button"
                     onClick={() => setResponseMode("chart")}
-                    className={`rounded-md px-2.5 py-1 text-[11px] font-semibold transition ${
-                      responseMode === "chart"
+                    className={`rounded-md px-2.5 py-1 text-[11px] font-semibold transition ${responseMode === "chart"
                         ? "bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900"
                         : "text-slate-600 hover:bg-slate-200/70 dark:text-slate-300 dark:hover:bg-slate-800"
-                    }`}
+                      }`}
                   >
                     Pro
                   </button>
