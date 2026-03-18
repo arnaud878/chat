@@ -52,22 +52,6 @@ const EXPERT_BI_SUGGESTIONS: SuggestionCategory[] = [
       { question: "Affiche la performance par **Responsable UC** (`RUC`) pour la marque **'YAMA'**." },
       { question: "Quel est le volume de ventes géré par chaque **ADV** pour les produits **'FERRERO'** ?" }
     ]
-  },
-  {
-    title: "Focus Clientèle",
-    icon: "🤝",
-    items: [
-      { question: "Quels sont les clients les plus importants liés à **'Antalaha'** ?" },
-      { question: "Calcule le **panier moyen** (CA / nombre de Pièces) par secteur d'activité." }
-    ]
-  },
-  {
-    title: "Analyse Produits & Flux",
-    icon: "📦",
-    items: [
-      { question: "Fais un comparatif des ventes entre les différentes **Marques** du marché **'CONFISERIE'**." },
-      { question: "Quels formats de produits (`Format`) génèrent la plus grande marge (`bop`) ?" }
-    ]
   }
 ];
 
