@@ -5,6 +5,7 @@ import { exportRenderedDiscussionToPdf } from "./api/pdfApi";
 import { appConfig, type ThemeMode } from "./config/app.config";
 import brandLogoDark from "./assets/logo-dark.svg";
 import brandLogoLight from "./assets/logo-light.svg";
+import Login from "./components/Login";
 
 type Message = {
   id: string;
@@ -209,6 +210,9 @@ function getInitialChatState(): { discussions: Discussion[]; selectedDiscussionI
 }
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem(appConfig.storageKeys.auth) === "true";
+  });
   const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
   const [isMenuCollapsed, setIsMenuCollapsed] = useState<boolean>(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -499,11 +503,15 @@ export default function App() {
     }
   };
 
+  if (!isAuthenticated) {
+    return <Login onLoginSuccess={() => setIsAuthenticated(true)} />;
+  }
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-200 text-slate-800 transition-colors duration-500 dark:bg-slate-950 dark:text-slate-100">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.35),_transparent_45%),radial-gradient(circle_at_80%_20%,_rgba(168,85,247,0.25),_transparent_35%),radial-gradient(circle_at_50%_100%,_rgba(59,130,246,0.25),_transparent_45%)]" />
-      <div className="relative z-10 mx-auto flex h-screen max-w-[1440px] flex-col gap-4 p-4">
-        <header className="glass-panel flex shrink-0 items-center justify-between px-4 py-3">
+      <div className="relative z-10 mx-auto flex h-screen max-w-[1440px] flex-col gap-2 p-2 focus:outline-none">
+        <header className="glass-panel flex shrink-0 items-center justify-between px-4 py-1">
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -519,18 +527,32 @@ export default function App() {
               <img
                 src={isDarkTheme ? brandLogoDark : brandLogoLight}
                 alt="Logo Assistant IA"
-                className="h-8 w-auto"
+                className="h-6 w-auto"
               />
               <div>
-                <h1 className="text-lg font-bold md:text-xl">Assistant IA</h1>
-                <p className="text-xs text-slate-600 dark:text-slate-300">{appConfig.subtitle}</p>
+                <h1 className="text-sm font-bold md:text-base leading-tight">Assistant IA</h1>
+                <p className="text-[9px] leading-tight text-slate-600 dark:text-slate-300">{appConfig.subtitle}</p>
               </div>
             </div>
           </div>
-          <ThemeToggle
-            theme={theme}
-            onToggle={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
-          />
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                localStorage.removeItem(appConfig.storageKeys.auth);
+                setIsAuthenticated(false);
+              }}
+              className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-bold text-rose-600 transition hover:bg-rose-100 dark:border-rose-500/20 dark:bg-rose-500/10 dark:text-rose-400 dark:hover:bg-rose-500/20"
+              aria-label="Se deconnecter"
+            >
+              Déconnexion
+            </button>
+            <ThemeToggle
+              theme={theme}
+              onToggle={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
+              compact
+            />
+          </div>
         </header>
 
         {isMobileMenuOpen ? (
@@ -628,19 +650,19 @@ export default function App() {
             </div>
           </aside>
 
-          <main className="glass-panel flex min-h-0 flex-col overflow-hidden p-4 md:p-5">
+          <main className="glass-panel flex min-h-0 flex-col overflow-hidden p-3 md:p-4">
             <div
               key={currentDiscussion?.id}
               className="animate-discussion-switch flex min-h-0 flex-1 flex-col"
               ref={exportSectionRef}
             >
-              <header className="shrink-0 border-b border-white/30 pb-3 dark:border-white/10">
+              <header className="shrink-0 border-b border-white/30 pb-1 dark:border-white/10">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <h2 className="truncate text-lg font-bold md:text-xl">
+                    <h2 className="truncate text-sm font-bold md:text-base leading-tight">
                       {currentDiscussion?.title || "Discussion"}
                     </h2>
-                    <p className="truncate text-xs text-slate-600 dark:text-slate-300">
+                    <p className="truncate text-[8px] leading-tight text-slate-600 dark:text-slate-300">
                       ID: {currentDiscussion?.id ? truncateText(currentDiscussion.id, 28) : ""}
                     </p>
                   </div>
@@ -648,7 +670,7 @@ export default function App() {
                     type="button"
                     onClick={handleExportCurrentDiscussion}
                     disabled={isExportingPdf}
-                    className="shrink-0 rounded-lg border border-slate-300/70 bg-slate-100/90 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60 dark:border-white/15 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:bg-slate-800"
+                    className="shrink-0 rounded-lg border border-slate-300/70 bg-slate-100/90 px-2 py-1 text-[10px] font-semibold text-slate-700 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60 dark:border-white/15 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:bg-slate-800"
                   >
                     {isExportingPdf ? "Export..." : "Exporter PDF"}
                   </button>
@@ -662,7 +684,7 @@ export default function App() {
 
               <section
                 ref={messagesSectionRef}
-                className="my-4 flex min-h-0 flex-1 flex-col gap-3 overflow-auto"
+                className="mt-2 mb-3 flex min-h-0 flex-1 flex-col gap-3 overflow-auto"
               >
                 {currentDiscussion?.messages.length ? (
                   currentDiscussion.messages.map((message) => (

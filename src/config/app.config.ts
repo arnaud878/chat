@@ -3,7 +3,8 @@ export const appConfig = {
   subtitle: "Assistant IA conversationnel",
   storageKeys: {
     discussions: "chatbot-discussions-v1",
-    theme: "chatbot-theme-v1"
+    theme: "chatbot-theme-v1",
+    auth: "chatbot-auth-v1"
   },
   branding: {
     gradientFrom: "#22d3ee",
