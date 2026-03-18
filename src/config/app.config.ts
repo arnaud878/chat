@@ -1,5 +1,5 @@
 export const appConfig = {
-  appName: "Chatbot Studio",
+  appName: "Assistant IA",
   subtitle: "Assistant IA conversationnel",
   storageKeys: {
     discussions: "chatbot-discussions-v1",

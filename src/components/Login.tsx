@@ -58,13 +58,10 @@ export default function Login({ onLoginSuccess }: LoginProps) {
 
       <div className="glass-panel relative z-10 w-full max-w-md p-8 space-y-8 animate-fadeIn">
         <div className="text-center space-y-3">
-          <h1 className="text-4xl font-black tracking-tight bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent italic">
-            {appConfig.appName.toUpperCase()}
+          <h1 className="text-3xl font-black tracking-tight bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent italic uppercase leading-tight">
+            {appConfig.subtitle}
           </h1>
           <div className="h-1 w-20 mx-auto rounded-full bg-gradient-to-r from-cyan-400 to-purple-600 opacity-50" />
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-widest">
-            {appConfig.subtitle}
-          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
