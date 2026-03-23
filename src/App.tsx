@@ -37,21 +37,19 @@ type SuggestionCategory = {
 
 const EXPERT_BI_SUGGESTIONS: SuggestionCategory[] = [
   {
-    title: "Performance Globale",
-    icon: "📈",
+    title: "Stocks & Marges",
+    icon: "📦",
     items: [
-      { question: "Fais-moi un résumé du **Chiffre d'Affaires total** (`ca`) et de la **Quantité totale** (`Qté`) sur les 6 derniers mois." },
-      { question: "Quelles sont les ventes totales pour les produits de type **'SEC'** par rapport aux produits **'FRAIS'** ?" },
-      { question: "Donne-moi le top 5 des familles de produits (`Familles`) les plus rentables." }
+      { question: "Quels produits ont le meilleur taux de vente vs stock disponible ?" },
+      { question: "Quel est l'impact des variations de prix des matières premières sur les marges des produits finis ?" }
     ]
   },
   {
-    title: "Top Agents & Commerciaux",
-    icon: "🏆",
+    title: "Fournisseurs & Clients",
+    icon: "🤝",
     items: [
-      { question: "Qui sont les 3 meilleurs **Commerciaux** en termes de CA ce trimestre ?" },
-      { question: "Affiche la performance par **Responsable UC** (`RUC`) pour la marque **'YAMA'**." },
-      { question: "Quel est le volume de ventes géré par chaque **ADV** pour les produits **'FERRERO'** ?" }
+      { question: "Quels fournisseurs sont les plus fiables selon le taux de conformité ?" },
+      { question: "Quels clients sont les plus rentables en termes de marge brute ?" }
     ]
   }
 ];
