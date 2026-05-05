@@ -44,15 +44,6 @@ const EXPERT_BI_SUGGESTIONS: SuggestionCategory[] = [
       { question: "Quelles sont les ventes totales pour les produits de type **'SEC'** par rapport aux produits **'FRAIS'** ?" },
       { question: "Donne-moi le top 5 des familles de produits (`Familles`) les plus rentables." }
     ]
-  },
-  {
-    title: "Top Agents & Commerciaux",
-    icon: "🏆",
-    items: [
-      { question: "Qui sont les 3 meilleurs **Commerciaux** en termes de CA ce trimestre ?" },
-      { question: "Affiche la performance par **Responsable UC** (`RUC`) pour la marque **'YAMA'**." },
-      { question: "Quel est le volume de ventes géré par chaque **ADV** pour les produits **'FERRERO'** ?" }
-    ]
   }
 ];
 
